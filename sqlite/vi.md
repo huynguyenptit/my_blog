@@ -13,23 +13,27 @@ Hãy cùng xem ưu điểm và nhược điểm về SQLite.
 * SQLite là đơn luồng. Vì vậy nó có nguy cơ thấp làm dữ liệu hỏng.
 * Cơ sở dữ liệu SQLite trong 1 file đơn. Nên chúng ta có thể di chuyển hoặc truy cập bởi nền tảng khác rất dễ dàng. 
 * SQLite là hệ quản trị cho người dùng đầu cuối.
-* Cross platform. SQLite có thể được sử dụng trên tất cả nền tảng hệ điều hành chính.
-OPENSOURCE OPENSOURCE OPENSOURCE !!!
+* Lướt qua về nền tảng, SQLite có thể được sử dụng trên tất cả nền tảng hệ điều hành OS.
+* Nó là mã nguồn mở !!!
 * Và vân vân ………
 
 ### Một vài nhược điểm
 
 * Giống như chúng tôi đã đề cập SQLite là đơn luồng. Vì vậy có nghĩa là SQLite có thể thực hiện 1 hành động ghi tại một thời điểm
-* Giống như chúng tôi đã đề cập SQLite giữ dữ liệu trong 1 file. Vì vậy, có nghĩa là toàn bộ dữ liệu bị khó trong thời gian thực hiện ghi. Điều này rất không mong muốn với cơ sở dữ liệu truy cập cao và sâu.
+
+* Giống như chúng tôi đã đề cập SQLite giữ dữ liệu trong 1 file. Vì vậy, có nghĩa là toàn bộ dữ liệu bị khó trong thời gian thực hiện ghi. Điều này rất không mong muốn với cơ sở dữ liệu lớn và sâu.
+
 * Không yêu cầu các mức xác thực.
 
 ### Tạo đa luồng trong cùng một thời điểm
 
 Bây giờ, tôi sẽ cố gắng đưa ra mẹo nhỏ để hoạt động ghi trong gần như một thời điểm.
 
-Chú ý: SQLite không bao giờ cho phép bạn tác động ROW LEVEL LOCK. Vì vấy không cần phải làng phí thời gian nghiên cứu về nó.
+Chú ý: SQLite không bao giờ cho phép bạn tác động ROW LEVEL LOCK. Vì vấy không cần phải lãng phí thời gian nghiên cứu về nó.
 
 Dĩ nhiên nó có thể tác động đến hiệu năng nếu bạn thực hiện hành động ghi trên phần lớn bảng. Nhưng Luồng thứ 2 sẽ không chờ nhiều thời gian cho đến khi kết thúc hành động đầu tiên.
+
+#### Đây là bước chính BƯỚC 1.7
 
 Bời vì như bạn biết index B TREE là siêu nhanh. Và hành động GHI của bạn sẽ thực hiện theo ID từng dòng đã được index mặc định.
 
@@ -45,5 +49,4 @@ THAY BẰNG:
 
 Tôi đã hoàn thành thử nghiệm nhỏ và kết quả tuyệt vời với tôi. Tôi đã có thể hoàn thành 2 hành động cập nhật trong 11s, đáng lẽ mỗi giao dịch mất 10s cho bảng với khoảng 40 triệu dòng.
 
-
-
+Hi vọng nó sẽ giúp ích cho những người dùng SQLite
